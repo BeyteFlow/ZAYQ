@@ -1,14 +1,27 @@
-import React from "react";
+import { useCart } from "../../../cart";
 import type { Product } from "../../../../store/product.store"
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+    const { addItem, isInCart, getItemQuantity } = useCart();
     const isComingSoon = product.status === 'coming-soon';
     const isOutOfStock = product.status === 'out-of-stock';
+    const inCart = isInCart(product.id);
+    const quantity = getItemQuantity(product.id);
 
     const handleBuyNow = () => {
         if (isComingSoon || isOutOfStock) return;
         const message = encodeURIComponent(`Hi ZAYQ! I'm interested in the ${product.name} (₹${product.price}). Is it in stock?`);
-        window.open(`https://wa.me/917306912910?text=${message}`, '_blank'); // Replace with your WhatsApp number
+        window.open(`https://wa.me/917306912910?text=${message}`, '_blank');
+    };
+
+    const handleAddToCart = () => {
+        if (isComingSoon || isOutOfStock) return;
+        addItem({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.imageUrl,
+        });
     };
 
     return (
@@ -21,6 +34,15 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                     <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full shadow-sm">
                         <p className="text-[9px] font-black uppercase tracking-widest text-black">
                             {isComingSoon ? 'Coming Soon' : 'Sold Out'}
+                        </p>
+                    </div>
+                )}
+
+                {/* Cart Badge (quando item está no carrinho) */}
+                {inCart && (
+                    <div className="absolute top-4 right-4 z-20 px-3 py-1.5 bg-black text-white rounded-full shadow-lg">
+                        <p className="text-[10px] font-bold">
+                            {quantity} no carrinho
                         </p>
                     </div>
                 )}
@@ -52,16 +74,32 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 <p className="text-[#8F8F8F] text-xs font-medium uppercase tracking-wider mt-1">{product.category}</p>
                 <p className="text-[#111111] font-semibold mt-2">₹{product.price.toLocaleString()}</p>
                 
-                <button 
-                    onClick={handleBuyNow}
-                    disabled={isComingSoon || isOutOfStock}
-                    className={`mt-4 w-full py-3 text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 
-                        ${isComingSoon || isOutOfStock 
-                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                            : 'bg-[#111111] text-white hover:bg-black active:scale-95'}`}
-                >
-                    {isComingSoon ? 'Coming Soon' : isOutOfStock ? 'Sold Out' : 'Order via WhatsApp'}
-                </button>
+                {/* Botões */}
+                <div className="w-full mt-4 flex flex-col gap-2">
+                    {/* Adicionar ao Carrinho */}
+                    <button 
+                        onClick={handleAddToCart}
+                        disabled={isComingSoon || isOutOfStock}
+                        className={`w-full py-3 text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 
+                            ${isComingSoon || isOutOfStock 
+                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                                : inCart
+                                ? 'bg-green-600 text-white hover:bg-green-700 active:scale-95'
+                                : 'bg-[#111111] text-white hover:bg-black active:scale-95'}`}
+                    >
+                        {isComingSoon ? 'Coming Soon' : isOutOfStock ? 'Sold Out' : inCart ? '✓ No Carrinho' : 'Adicionar ao Carrinho'}
+                    </button>
+
+                    {/* Order via WhatsApp */}
+                    {!isComingSoon && !isOutOfStock && (
+                        <button 
+                            onClick={handleBuyNow}
+                            className="w-full py-3 text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 border-2 border-[#111111] text-[#111111] hover:bg-[#111111] hover:text-white active:scale-95"
+                        >
+                            Order via WhatsApp
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
