@@ -18,7 +18,6 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-[#f4f4f4] px-6 py-2 md:px-12 md:py-3 border-b border-gray-200">
     <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-[#f4f4f4] px-6 py-2 md:px-12 md:py-3 border-b border-[#3D1A12]/10">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         
@@ -51,7 +50,6 @@ const Navbar: React.FC = () => {
 
         {/* Action Button + Cart + Mobile Toggle */}
         <div className="flex items-center space-x-4">
-          {/* Carrinho (aparece no desktop e mobile) */}
           <CartIcon />
 
           <Link
