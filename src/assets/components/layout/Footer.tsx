@@ -6,18 +6,18 @@ const Footer: React.FC = () => {
 
   const linkClass = (path: string) =>
     `transition-colors ${pathname === path
-      ? "text-black font-semibold"
-      : "text-gray-600 hover:text-black"
+      ? "text-[#3D1A12] font-semibold"
+      : "text-[#3D1A12]/60 hover:text-[#3D1A12]"
     }`;
 
   return (
-    <footer className="w-full bg-[#f4f4f4] pt-16 pb-8 px-6 md:px-12 border-t border-gray-200">
+    <footer className="w-full bg-[#f4f4f4] pt-16 pb-8 px-6 md:px-12 border-t border-[#3D1A12]/10">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 md:gap-8 mb-16">
 
           {/* Shop Column */}
           <div>
-            <h3 className="font-bold text-[#1a1a1a] mb-6">Shop</h3>
+            <h3 className="font-bold text-[#3D1A12] mb-6">Shop</h3>
             <ul className="space-y-4">
               <li>
                 <Link to="/products" className={linkClass("/products")}>
@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
 
           {/* Info Column */}
           <div>
-            <h3 className="font-bold text-[#1a1a1a] mb-6">Info</h3>
+            <h3 className="font-bold text-[#3D1A12] mb-6">Info</h3>
             <ul className="space-y-4">
               <li>
                 <Link to="/about" className={linkClass("/about")}>
@@ -51,12 +51,12 @@ const Footer: React.FC = () => {
 
           {/* Follow Us Column */}
           <div>
-            <h3 className="font-bold text-[#1a1a1a] mb-6">Follow Us</h3>
+            <h3 className="font-bold text-[#3D1A12] mb-6">Follow Us</h3>
             <div className="flex space-x-4">
               {/* Instagram Icon */}
               <a
                 href="#"
-                className="text-gray-800 hover:text-black transition-colors"
+                className="text-[#3D1A12]/70 hover:text-[#3D1A12] transition-colors"
                 aria-label="Instagram"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
               {/* Twitter/X Icon */}
               <a
                 href="#"
-                className="text-gray-800 hover:text-black transition-colors"
+                className="text-[#3D1A12]/70 hover:text-[#3D1A12] transition-colors"
                 aria-label="Twitter"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -81,16 +81,19 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Line */}
-        <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm text-gray-500 font-medium">
+        <div className="pt-8 border-t border-[#3D1A12]/10 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm text-[#3D1A12]/50 font-medium">
           <div className="order-2 md:order-1">
             © 2024 ZAYQ. All rights reserved.
           </div>
           <div className="flex space-x-8 order-1 md:order-2">
-            <Link to="/privacy-policy" className="hover:text-black transition-colors">
+            <Link to="/privacy-policy" className="hover:text-[#3D1A12] transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/terms" className="hover:text-black transition-colors">
+            <Link to="/terms-of-service" className="hover:text-[#3D1A12] transition-colors">
               Terms & Conditions
+            </Link>
+            <Link to="/refund-policy" className="hover:text-[#3D1A12] transition-colors">
+              Refund Policy
             </Link>
           </div>
         </div>
