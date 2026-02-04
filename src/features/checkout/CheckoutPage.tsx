@@ -196,7 +196,7 @@ export function CheckoutPage() {
   const searchPostalCode = async () => {
     const code = formData.zipCode.replace(/\D/g, "");
     
-    if (!code) {
+    if (!code && formData.country !== "GB" && formData.country !== "CA") {
       setErrors((prev) => ({ ...prev, zipCode: "Digite o código postal" }));
       return;
     }
@@ -204,7 +204,7 @@ export function CheckoutPage() {
     setIsSearchingPostal(true);
     setErrors((prev) => ({ ...prev, zipCode: "" }));
 
-    let result;
+    let result: { success: boolean; error?: string; data?: Partial<FormData> };
 
     switch (formData.country) {
       case "BR":
@@ -254,11 +254,11 @@ export function CheckoutPage() {
     if (result.success && result.data) {
       setFormData((prev) => ({
         ...prev,
-        street: result.data.street || prev.street,
-        neighborhood: result.data.neighborhood || prev.neighborhood,
-        city: result.data.city || prev.city,
-        state: result.data.state || prev.state,
-        complement: result.data.complement || prev.complement,
+        street: result.data?.street ?? prev.street,
+        neighborhood: result.data?.neighborhood ?? prev.neighborhood,
+        city: result.data?.city ?? prev.city,
+        state: result.data?.state ?? prev.state,
+        complement: result.data?.complement ?? prev.complement,
       }));
     } else {
       setErrors((prev) => ({ ...prev, zipCode: result.error || "Erro ao buscar" }));
@@ -389,7 +389,6 @@ export function CheckoutPage() {
               <div className="mb-8">
                 <h2 className="text-xl font-bold text-[#111111] mb-6">Endereço de Entrega</h2>
                 <div className="grid md:grid-cols-4 gap-4">
-                  {/* País */}
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-[#111111] mb-2">País *</label>
                     <select
@@ -406,7 +405,6 @@ export function CheckoutPage() {
                     </select>
                   </div>
 
-                  {/* Código Postal com busca */}
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-[#111111] mb-2">
                       {selectedCountry.label} *
