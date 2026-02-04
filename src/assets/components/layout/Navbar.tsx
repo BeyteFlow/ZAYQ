@@ -1,25 +1,25 @@
-import React, { useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 interface NavItem {
-  label: string
-  path: string
+  label: string;
+  path: string;
 }
 
 const Navbar: React.FC = () => {
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems: NavItem[] = [
     { label: "Cases", path: "/products" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
-  ]
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-[#f4f4f4] px-6 py-2 md:px-12 md:py-3 border-b border-[#3D1A12]/10">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-
+        
         {/* Logo */}
         <div className="shrink-0">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[#3D1A12]">
@@ -33,13 +33,15 @@ const Navbar: React.FC = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`relative group py-1 font-medium transition-colors ${location.pathname === item.path ? "text-[#3D1A12]" : "text-[#3D1A12]/60"
-                }`}
+              className={`relative group py-1 font-medium transition-colors ${
+                location.pathname === item.path ? "text-[#3D1A12]" : "text-[#3D1A12]/60"
+              }`}
             >
               {item.label}
               <span
-                className={`absolute bottom-0 left-0 h-0.5 bg-[#3D1A12] transition-all duration-300 ${location.pathname === item.path ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
+                className={`absolute bottom-0 left-0 h-0.5 bg-[#3D1A12] transition-all duration-300 ${
+                  location.pathname === item.path ? "w-full" : "w-0 group-hover:w-full"
+                }`}
               />
             </Link>
           ))}
@@ -92,10 +94,11 @@ const Navbar: React.FC = () => {
               key={item.path}
               to={item.path}
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`text-lg font-medium ${location.pathname === item.path
+              className={`text-lg font-medium ${
+                location.pathname === item.path
                   ? "text-[#3D1A12] border-b-2 border-[#3D1A12]"
                   : "text-[#3D1A12]/60"
-                }`}
+              }`}
             >
               {item.label}
             </Link>
@@ -103,14 +106,15 @@ const Navbar: React.FC = () => {
 
           <Link
             to="/buy"
-            className="w-full text-center max-w-50 bg-[#3D1A12] text-white px-6 py-3 rounded-xl font-semibold text-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="w-full text-center max-w-[200px] bg-[#3D1A12] text-white px-6 py-3 rounded-xl font-semibold text-sm"
           >
             Buy Now
           </Link>
         </div>
       )}
     </nav>
-  )
-}
+  );
+};
 
 export default Navbar;
