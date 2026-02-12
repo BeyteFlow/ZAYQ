@@ -1,9 +1,7 @@
-import { useState } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { CartIcon } from "../../../features/cart"
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { CartIcon } from "../../../features/cart";
 
 interface NavItem {
   label: string;
@@ -21,7 +19,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -30,7 +28,10 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="shrink-0">
-          <Link to={"/"} className="text-2xl md:text-3xl font-bold tracking-tight text-[#3D1A12]">
+          <Link
+            to={"/"}
+            className="text-2xl md:text-3xl font-bold tracking-tight text-[#3D1A12]"
+          >
             ZAYQ
           </Link>
         </div>
@@ -42,14 +43,18 @@ const Navbar: React.FC = () => {
               key={item.path}
               to={item.path}
               className={`relative group py-1 font-medium transition-colors ${
-                location.pathname === item.path ? "text-[#3D1A12]" : "text-[#3D1A12]/60"
+                location.pathname === item.path
+                  ? "text-[#3D1A12]"
+                  : "text-[#3D1A12]/60"
               }`}
             >
               {item.label}
               <motion.span
                 layoutId="navUnderline"
                 className={`absolute bottom-0 left-0 h-0.5 bg-[#3D1A12] ${
-                  location.pathname === item.path ? "w-full" : "w-0 group-hover:w-full"
+                  location.pathname === item.path
+                    ? "w-full"
+                    : "w-0 group-hover:w-full"
                 } transition-all duration-300`}
               />
             </Link>
@@ -72,44 +77,70 @@ const Navbar: React.FC = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <motion.div animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}>
-                {isMobileMenuOpen ? (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                ) : (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                )}
+              {isMobileMenuOpen ? (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              )}
             </motion.div>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden mt-4 pb-4 space-y-4 flex flex-col items-center animate-in fade-in slide-in-from-top-4 duration-200">
-          {navItems.map((item) => (
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="md:hidden overflow-hidden pb-6 space-y-4 flex flex-col items-center"
+          >
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`text-lg font-medium ${
+                  location.pathname === item.path
+                    ? "text-[#3D1A12]"
+                    : "text-[#3D1A12]/60"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
-              key={item.path}
-              to={item.path}
+              to="/buy"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`text-lg font-medium ${
-                location.pathname === item.path
-                  ? "text-[#3D1A12] border-b-2 border-[#3D1A12]"
-                  : "text-[#3D1A12]/60"
-              }`}
+              className="w-full text-center max-w-50 bg-[#3D1A12] text-white px-6 py-3 rounded-xl font-semibold text-sm"
             >
               Buy Now
             </Link>
-          ))}
-
-          <Link
-            to="/buy"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="w-full text-center max-w-[200px] bg-[#3D1A12] text-white px-6 py-3 rounded-xl font-semibold text-sm"
-          >
-            Buy Now
-          </Link>
-        </div>
-      )}
-    </nav>
           </motion.div>
         )}
       </AnimatePresence>
