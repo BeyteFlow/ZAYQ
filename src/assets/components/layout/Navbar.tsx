@@ -137,7 +137,7 @@ const Navbar: React.FC = () => {
             <Link
               to="/buy"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center max-w-50 bg-[#3D1A12] text-white px-6 py-3 rounded-xl font-semibold text-sm"
+              className="w-full text-center max-w-[200px] bg-[#3D1A12] text-white px-6 py-3 rounded-xl font-semibold text-sm"
             >
               Buy Now
             </Link>
