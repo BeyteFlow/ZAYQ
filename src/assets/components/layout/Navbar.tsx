@@ -1,6 +1,9 @@
 import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { CartIcon } from "../../../features/cart"
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NavItem {
   label: string;
@@ -18,14 +21,18 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-[#f4f4f4] px-6 py-2 md:px-12 md:py-3 border-b border-[#3D1A12]/10">
+    <motion.nav 
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 z-50 w-full bg-[#f4f4f4]/80 backdrop-blur-md px-6 py-2 md:px-12 md:py-3 border-b border-[#3D1A12]/10"
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        
         {/* Logo */}
         <div className="shrink-0">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[#3D1A12]">
+          <Link to={"/"} className="text-2xl md:text-3xl font-bold tracking-tight text-[#3D1A12]">
             ZAYQ
-          </h1>
+          </Link>
         </div>
 
         {/* Desktop Links */}
@@ -39,10 +46,11 @@ const Navbar: React.FC = () => {
               }`}
             >
               {item.label}
-              <span
-                className={`absolute bottom-0 left-0 h-0.5 bg-[#3D1A12] transition-all duration-300 ${
+              <motion.span
+                layoutId="navUnderline"
+                className={`absolute bottom-0 left-0 h-0.5 bg-[#3D1A12] ${
                   location.pathname === item.path ? "w-full" : "w-0 group-hover:w-full"
-                }`}
+                } transition-all duration-300`}
               />
             </Link>
           ))}
@@ -53,7 +61,7 @@ const Navbar: React.FC = () => {
           <CartIcon />
 
           <Link
-            to="/buy"
+            to="/products"
             className="hidden md:block bg-[#3D1A12] text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-[#4D2A22] transition-colors shadow-sm"
           >
             Own now
@@ -62,29 +70,14 @@ const Navbar: React.FC = () => {
           <button
             className="md:hidden p-2 text-[#3D1A12]"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              {isMobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              )}
-            </svg>
+            <motion.div animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}>
+                {isMobileMenuOpen ? (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                ) : (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                )}
+            </motion.div>
           </button>
         </div>
       </div>
@@ -103,7 +96,7 @@ const Navbar: React.FC = () => {
                   : "text-[#3D1A12]/60"
               }`}
             >
-              {item.label}
+              Buy Now
             </Link>
           ))}
 
@@ -117,6 +110,10 @@ const Navbar: React.FC = () => {
         </div>
       )}
     </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 

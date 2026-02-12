@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    # --- New Grouping Logic ---
+    groups:
+      # Group 1: Bundle all TypeScript type definitions
+      typescript-types:
+        patterns:
+          - "@types*"
+      
+      # Group 2: Bundle dev tools that won't break your production site
+      dev-tooling:
+        patterns:
+          - "eslint*"
+          - "prettier*"
+          - "vite*"
+          - "vitest*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

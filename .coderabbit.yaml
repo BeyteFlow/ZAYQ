@@ -1,0 +1,23 @@
+# .coderabbit.yaml
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: "en-US"
+reviews:
+  profile: "chill" # Options are "chill" or "assertive"
+  auto_review:
+    enabled: true
+    drafts: false
+  
+  # This is the new way to give specific instructions
+  path_instructions:
+    - path: "**/*.{ts,tsx}"
+      instructions: |
+        Review specifically for:
+        - React performance (unnecessary re-renders and hook dependency arrays)
+        - TypeScript type safety (flag any 'any' types that could be more specific)
+        - Proper use of Tailwind CSS classes
+        - Ensuring clean code and descriptive variable names
+
+  tools:
+    github-checks: # Fixed: use hyphen, not underscore
+      enabled: true

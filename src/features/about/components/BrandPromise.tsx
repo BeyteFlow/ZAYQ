@@ -1,6 +1,6 @@
-import { Check,Shield } from "lucide-react";
+import { Check, Shield } from "lucide-react";
 const BrandPromise = () => (
-  <section className="py-20 px-4 bg-slate-900 text-white">
+  <section className="py-20 px-4 bg-[#3D1A12] text-[#F7F7F7]">
     <div className="max-w-7xl mx-auto">
       <div className="grid md:grid-cols-2 gap-16 items-center">
         <div>
@@ -17,7 +17,7 @@ const BrandPromise = () => (
               "Free returns within 30 days"
             ].map((promise, index) => (
               <div key={index} className="flex items-start gap-4">
-                <Check className="text-blue-400 shrink-0 mt-1" size={24} />
+                <Check className="text-[#D4AF37] shrink-0 mt-1" size={24} />
                 <span className="text-lg text-gray-300">{promise}</span>
               </div>
             ))}
@@ -27,10 +27,10 @@ const BrandPromise = () => (
         <div className="relative h-100 rounded-3xl overflow-hidden">
           <div className="w-full h-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center">
             <Shield className="text-white opacity-40" size={140} />
-            <img 
-              src="https://cdn.thewirecutter.com/wp-content/media/2024/10/BEST-IPHONE-16-CASES-2048px-4833-2x1-1.jpg?width=2048&quality=75&crop=2:1&auto=webp" 
-              alt="Quality" 
-              className="w-full h-full object-cover" 
+            <img
+              src="https://cdn.thewirecutter.com/wp-content/media/2024/10/BEST-IPHONE-16-CASES-2048px-4833-2x1-1.jpg?width=2048&quality=75&crop=2:1&auto=webp"
+              alt="Quality"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>

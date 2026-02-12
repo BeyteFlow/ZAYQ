@@ -1,12 +1,13 @@
 import { Star } from "lucide-react";
+
 const Testimonials = () => (
-    <section className="py-20 px-4 bg-gray-50">
+    <section className="py-20 px-4 bg-[#F7F7F7]">
         <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-gray-900">
+                <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-[#3D1A12] tracking-tight">
                     Loved by iPhone Users
                 </h2>
-                <p className="text-xl text-gray-600">Join thousands of satisfied customers</p>
+                <p className="text-xl text-[#3D1A12]/60 font-light">Join thousands of satisfied customers</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -30,16 +31,20 @@ const Testimonials = () => (
                         rating: 5
                     }
                 ].map((testimonial, index) => (
-                    <div key={index} className="bg-white rounded-3xl p-8 shadow-lg">
-                        <div className="flex gap-1 mb-4">
+                    <div key={index} className="bg-white rounded-3xl p-8 shadow-sm border border-[#3D1A12]/5 hover:shadow-md transition-all">
+                        <div className="flex gap-1 mb-6">
                             {[...Array(testimonial.rating)].map((_, i) => (
-                                <Star key={i} className="text-yellow-400 fill-yellow-400" size={20} />
+                                <Star key={i} className="text-[#D4AF37] fill-[#D4AF37]" size={18} />
                             ))}
                         </div>
-                        <p className="text-gray-700 mb-6 text-lg leading-relaxed">"{testimonial.review}"</p>
-                        <div className="border-t border-gray-100 pt-4">
-                            <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                            <div className="text-sm text-gray-600">{testimonial.model} Owner</div>
+                        <p className="text-[#3D1A12]/80 mb-8 text-lg leading-relaxed italic font-light">
+                            "{testimonial.review}"
+                        </p>
+                        <div className="border-t border-[#3D1A12]/10 pt-6">
+                            <div className="font-bold text-[#3D1A12] tracking-tight">{testimonial.name}</div>
+                            <div className="text-xs uppercase tracking-widest text-[#D4AF37] font-semibold mt-1">
+                                {testimonial.model} Owner
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -47,4 +52,5 @@ const Testimonials = () => (
         </div>
     </section>
 );
+
 export default Testimonials;
