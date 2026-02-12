@@ -1,4 +1,4 @@
-name: Autofix Pull Requests
+name: autofix.ci
 
 on:
   pull_request:
@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 1. Checkout the code
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # 2. Install Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -32,3 +32,6 @@ jobs:
       # 6. Call autofix.ci to push fixes to PR
       - name: Autofix CI
         uses: autofix-ci/action@8bc06253bec489732e5f9c52884c7cace15c0160
+        with:
+          fail-fast: true
+          
