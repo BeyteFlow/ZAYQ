@@ -12,6 +12,8 @@ import NotFound from "./pages/404Page";
 import PrivacyPolicy from "./features/legal/PrivacyPolicy";
 import RefundPolicy from "./features/legal/RefundPolicy";
 import TermsOfService from "./features/legal/TermsOfService";
+import FaqsPage from "./pages/FaqsPage";
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -30,6 +32,7 @@ const App: React.FC = () => {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/refund-policy" element={<RefundPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/faqs" element={<FaqsPage />} />
           </Routes>
         </main>
 
