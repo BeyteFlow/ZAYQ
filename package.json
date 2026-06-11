@@ -31,13 +31,13 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
-    "eslint": "^10.0.0",
-    "eslint-plugin-react-hooks": "7.1.0-canary-47d1ad14-20260216",
-    "eslint-plugin-react-refresh": "^0.5.0",
+    "eslint": "^10.4.1",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.61.0",
-    "vite": "^7.2.4",
-    "vitest": "^4.0.18"
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8"
   }
 }
