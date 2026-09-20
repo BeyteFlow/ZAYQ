@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import type { Product } from "../../../../store/product.store";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const isComingSoon = product.status === "coming-soon";
   const isOutOfStock = product.status === "out-of-stock";
+  const [imgFailed, setImgFailed] = useState(false);
 
   const handleBuyNow = () => {
     if (isComingSoon || isOutOfStock) return;
@@ -30,11 +31,13 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <div
           className={`w-full h-full transition-all duration-700 ease-in-out ${!isComingSoon && "group-hover:scale-110"} ${isComingSoon ? "blur-xl opacity-50" : "opacity-100"}`}
         >
-          {product.imageUrl ? (
+          {product.imageUrl && !imgFailed ? (
             <img
               src={product.imageUrl}
               alt={product.name}
+              loading="lazy"
               className="w-full h-full object-cover"
+              onError={() => setImgFailed(true)}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-[#3D1A12]/30 text-xs font-medium">

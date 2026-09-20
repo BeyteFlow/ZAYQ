@@ -1,42 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../../lib/firebase";
 
 const AddProductPage = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    imageUrl: "",
     price: 0,
     status: "in-stock",
-    models: "", // We will split this string into an array
+    models: "",
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setSelectedFile(file);
+    setPreview(URL.createObjectURL(file));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedFile) {
+      alert("Please select an image.");
+      return;
+    }
+
+    setUploading(true);
     try {
-      // Clean up the data before sending to Firebase
+      const storageRef = ref(storage, `products/${selectedFile.name}`);
+      await uploadBytes(storageRef, selectedFile);
+      const imageUrl = await getDownloadURL(storageRef);
+
       const productToSave = {
         ...formData,
-        price: Number(formData.price), // Ensure it's a number
-        models: formData.models.split(",").map((m) => m.trim()), // Convert "i15, i15 Pro" -> ["i15", "i15 Pro"]
+        price: Number(formData.price),
+        models: formData.models.split(",").map((m) => m.trim()),
+        imageUrl,
       };
 
       await addDoc(collection(db, "products"), productToSave);
       alert("Product added successfully!");
 
-      // Reset form
-      setFormData({
-        name: "",
-        description: "",
-        imageUrl: "",
-        price: 0,
-        status: "in-stock",
-        models: "",
-      });
+      setFormData({ name: "", description: "", price: 0, status: "in-stock", models: "" });
+      setSelectedFile(null);
+      setPreview(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.error("Error adding product:", error);
       alert("Failed to add product.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -47,59 +65,45 @@ const AddProductPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">
-              Product Name
-            </label>
+            <label className="block text-xs font-bold uppercase mb-1">Product Name</label>
             <input
               type="text"
               placeholder="Midnight Matte Case"
               className="w-full p-3 border rounded-lg"
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               value={formData.name}
+              required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">
-              Description
-            </label>
+            <label className="block text-xs font-bold uppercase mb-1">Description</label>
             <textarea
               placeholder="Premium silk finish..."
               className="w-full p-3 border rounded-lg"
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               value={formData.description}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase mb-1">
-                Price (₹)
-              </label>
+              <label className="block text-xs font-bold uppercase mb-1">Price (₹)</label>
               <input
-                aria-label="000"
+                aria-label="Price"
                 type="number"
                 className="w-full p-3 border rounded-lg"
-                onChange={(e) =>
-                  setFormData({ ...formData, price: Number(e.target.value) })
-                }
+                onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
                 value={formData.price}
+                required
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase mb-1">
-                Status
-              </label>
+              <label className="block text-xs font-bold uppercase mb-1">Status</label>
               <select
                 className="w-full p-3 border rounded-lg"
                 aria-label="Stock"
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 value={formData.status}
               >
                 <option value="in-stock">In Stock</option>
@@ -110,40 +114,37 @@ const AddProductPage = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">
-              Image URL
-            </label>
+            <label className="block text-xs font-bold uppercase mb-1">Product Image</label>
             <input
-              type="text"
-              placeholder="https://..."
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
               className="w-full p-3 border rounded-lg"
-              onChange={(e) =>
-                setFormData({ ...formData, imageUrl: e.target.value })
-              }
-              value={formData.imageUrl}
+              required
             />
+            {preview && (
+              <img src={preview} alt="Preview" className="mt-3 h-40 object-cover rounded-lg" />
+            )}
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">
-              Compatible Models (comma separated)
-            </label>
+            <label className="block text-xs font-bold uppercase mb-1">Compatible Models (comma separated)</label>
             <input
               type="text"
               placeholder="iPhone 15, iPhone 15 Pro"
               className="w-full p-3 border rounded-lg"
-              onChange={(e) =>
-                setFormData({ ...formData, models: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, models: e.target.value })}
               value={formData.models}
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-4 bg-black text-white font-bold rounded-xl hover:bg-zinc-800 transition-colors"
+            disabled={uploading}
+            className="w-full py-4 bg-black text-white font-bold rounded-xl hover:bg-zinc-800 transition-colors disabled:opacity-50"
           >
-            Upload to Shop
+            {uploading ? "Uploading..." : "Upload to Shop"}
           </button>
         </form>
       </div>
