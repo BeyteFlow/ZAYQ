@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "@tanstack/react-query": "^5.101.0",
+    "@tanstack/react-query": "^5.101.4",
     "clsx": "^2.1.1",
     "firebase": "^12.14.0",
     "framer-motion": "^12.42.2",
@@ -34,7 +34,7 @@
     "eslint": "^10.0.0",
     "eslint-plugin-react-hooks": "7.1.0-canary-47d1ad14-20260216",
     "eslint-plugin-react-refresh": "^0.5.0",
-    "globals": "^17.6.0",
+    "globals": "^17.8.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.62.1",
     "vite": "^7.2.4",
