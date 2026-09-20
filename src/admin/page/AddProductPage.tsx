@@ -46,7 +46,13 @@ const AddProductPage = () => {
       await addDoc(collection(db, "products"), productToSave);
       alert("Product added successfully!");
 
-      setFormData({ name: "", description: "", price: 0, status: "in-stock", models: "" });
+      setFormData({
+        name: "",
+        description: "",
+        price: 0,
+        status: "in-stock",
+        models: "",
+      });
       setSelectedFile(null);
       setPreview(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -65,45 +71,61 @@ const AddProductPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">Product Name</label>
+            <label className="block text-xs font-bold uppercase mb-1">
+              Product Name
+            </label>
             <input
               type="text"
               placeholder="Midnight Matte Case"
               className="w-full p-3 border rounded-lg"
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               value={formData.name}
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">Description</label>
+            <label className="block text-xs font-bold uppercase mb-1">
+              Description
+            </label>
             <textarea
               placeholder="Premium silk finish..."
               className="w-full p-3 border rounded-lg"
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               value={formData.description}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase mb-1">Price (₹)</label>
+              <label className="block text-xs font-bold uppercase mb-1">
+                Price (₹)
+              </label>
               <input
                 aria-label="Price"
                 type="number"
                 className="w-full p-3 border rounded-lg"
-                onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                onChange={(e) =>
+                  setFormData({ ...formData, price: Number(e.target.value) })
+                }
                 value={formData.price}
                 required
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase mb-1">Status</label>
+              <label className="block text-xs font-bold uppercase mb-1">
+                Status
+              </label>
               <select
                 className="w-full p-3 border rounded-lg"
                 aria-label="Stock"
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 value={formData.status}
               >
                 <option value="in-stock">In Stock</option>
@@ -114,7 +136,9 @@ const AddProductPage = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">Product Image</label>
+            <label className="block text-xs font-bold uppercase mb-1">
+              Product Image
+            </label>
             <input
               ref={fileInputRef}
               type="file"
@@ -124,17 +148,25 @@ const AddProductPage = () => {
               required
             />
             {preview && (
-              <img src={preview} alt="Preview" className="mt-3 h-40 object-cover rounded-lg" />
+              <img
+                src={preview}
+                alt="Preview"
+                className="mt-3 h-40 object-cover rounded-lg"
+              />
             )}
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase mb-1">Compatible Models (comma separated)</label>
+            <label className="block text-xs font-bold uppercase mb-1">
+              Compatible Models (comma separated)
+            </label>
             <input
               type="text"
               placeholder="iPhone 15, iPhone 15 Pro"
               className="w-full p-3 border rounded-lg"
-              onChange={(e) => setFormData({ ...formData, models: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, models: e.target.value })
+              }
               value={formData.models}
             />
           </div>
